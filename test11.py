@@ -24,7 +24,7 @@ class studyApp:
                             
         
         studyButton.pack(side = "top")
-    # button action    
+    # button action hello
     def studyClicked(self, frame):
         pass
 
