@@ -1,1 +1,1 @@
-This is a little program that I made that allows users to create and review study sets. Creating a study set creates a folder on the user's computer such that the set may be accessed for later use.
+This is a little program that I made that allows users to create and review study sets. Creating a study set creates a folder on the user's computer such that the set may be accessed for later use. This is the first time I have used a GUI in python, so please excuse how bad the implementation may look. 
