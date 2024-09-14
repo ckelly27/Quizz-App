@@ -131,7 +131,6 @@ if __name__ == "__main__":
     window = tk.Tk()
     studyApp(window)
     window.mainloop()
-    print("hi")
 
 
 
