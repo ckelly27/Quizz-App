@@ -35,7 +35,7 @@ class studyApp:
         studyButton = tk.Button(self.appFrame,
                             text = "Study a set",
                             font = "impact 40",
-                            command = self.studyClicked,
+                            command = lambda: self.studyClicked(True),
                             width = "12",
                             height = "3",
                             bg = "grey",
@@ -45,7 +45,7 @@ class studyApp:
         createButton = tk.Button(self.appFrame,
                             text = "Create a set",
                             font = "impact 40",
-                            command = self.studyClicked,
+                            command = self.createClicked,
                             width = "12",
                             height = "3")
                             
@@ -53,30 +53,66 @@ class studyApp:
         studyButton.pack(side = "left", pady = "5")
         createButton.pack(side = "right", pady = "5")
 
-    def studyClicked(self):
+    def studyClicked(self, cond):
         # clear frame in prepration for new contents 
         self.clearFrame()
-
+        if cond == False:
+            correctLbl = tk.Label(self.appFrame,
+                                  text = "SET MUST BE NAMED!",
+                                  font = "impact 70",
+                                  background = "white",
+                                  fg = "red")
+            correctLbl.grid(row = 3, column = 0)
+        
         studyLbl = tk.Label(self.appFrame,
                             text = "Enter the name of the set",
                             font = "impact 70",
                             background = "white",
                             fg = "black")
         
-        studyName = tk.Entry(self.appFrame,
+        self.studyName = tk.Entry(self.appFrame,
                              bg = "white",
                              fg = "black")
 
         submitName = tk.Button(self.appFrame,
-                               text = "Submit")
+                               text = "Submit",
+                               command = self.addStudyTitle)
         
         studyLbl.grid(row = 0, column= 0)
-        studyName.grid(row = 1, column= 0)
+        self.studyName.grid(row = 1, column= 0)
         submitName.grid(row = 2, column = 0)
-        submitName = tk.Button(self.appFrame,
-                               text = "Submit")
+
+    def createStudyCreate(self):
+        userLbl = tk.Label(self.appFrame,
+                           text = self.questions[0],
+                           font = "impact 70",
+                           background = "white",
+                           fg = "black")
+        
+        userQuestion = tk.Label(self.appFrame,
+                                text = "Question:",
+                                font = "impact 30",
+                                background = "white",
+                                fg = "black")
+        
+        questionEntry = tk.Entry(self.appFrame,
+                                 bg = "white",
+                                 fg = "black")
+        
+
+        userLbl.grid(row = 0, column = 1)
+        userQuestion.grid(row = 1, column = 0)
+        questionEntry.grid(row = 1, column = 2)
 
 
+    def addStudyTitle(self):
+        # gets contents from the study set name entry box
+        if self.studyName.get().strip() == "":
+            self.studyClicked(cond = False)
+        else:
+            self.questions.append(self.studyName.get())
+            self.clearFrame()
+            self.createStudyCreate()
 
 
     def createClicked(self):
