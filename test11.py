@@ -12,6 +12,8 @@ class studyApp:
         root.configure(bg = "#3b3b3b")
         self.createFrame(self.root)
 
+        self.questions = []
+
     # Create initial menu frame
     def createFrame(self, root):
         self.appFrame = tk.Frame(root,
@@ -52,9 +54,33 @@ class studyApp:
         createButton.pack(side = "right", pady = "5")
 
     def studyClicked(self):
+        # clear frame in prepration for new contents 
         self.clearFrame()
 
+        studyLbl = tk.Label(self.appFrame,
+                            text = "Enter the name of the set",
+                            font = "impact 70",
+                            background = "white",
+                            fg = "black")
+        
+        studyName = tk.Entry(self.appFrame,
+                             bg = "white",
+                             fg = "black")
+
+        submitName = tk.Button(self.appFrame,
+                               text = "Submit")
+        
+        studyLbl.grid(row = 0, column= 0)
+        studyName.grid(row = 1, column= 0)
+        submitName.grid(row = 2, column = 0)
+        submitName = tk.Button(self.appFrame,
+                               text = "Submit")
+
+
+
+
     def createClicked(self):
+        # clear frame in prepration for new contents 
         self.clearFrame()
 
     # Empties frame to display new contents
