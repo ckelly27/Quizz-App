@@ -35,7 +35,7 @@ class studyApp:
         studyButton = tk.Button(self.appFrame,
                             text = "Study a set",
                             font = "impact 40",
-                            command = lambda: self.studyClicked(True),
+                            command = self.studyClicked,
                             width = "12",
                             height = "3",
                             bg = "grey",
@@ -45,7 +45,7 @@ class studyApp:
         createButton = tk.Button(self.appFrame,
                             text = "Create a set",
                             font = "impact 40",
-                            command = self.createClicked,
+                            command = lambda: self.createClicked(True),
                             width = "12",
                             height = "3")
                             
@@ -53,7 +53,9 @@ class studyApp:
         studyButton.pack(side = "left", pady = "5")
         createButton.pack(side = "right", pady = "5")
 
-    def studyClicked(self, cond):
+    def createClicked(self, cond):
+        # cond is a boolean: if false, means user attempted to submit a blank name for study set
+
         # clear frame in prepration for new contents 
         self.clearFrame()
         if cond == False:
@@ -108,14 +110,14 @@ class studyApp:
     def addStudyTitle(self):
         # gets contents from the study set name entry box
         if self.studyName.get().strip() == "":
-            self.studyClicked(cond = False)
+            self.createClicked(cond = False)
         else:
             self.questions.append(self.studyName.get())
             self.clearFrame()
             self.createStudyCreate()
 
 
-    def createClicked(self):
+    def studyClicked(self):
         # clear frame in prepration for new contents 
         self.clearFrame()
 
