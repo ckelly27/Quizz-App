@@ -10,9 +10,10 @@ class studyApp:
         root.geometry("1000x600")
         root.resizable(width = False, height = False)
         root.configure(bg = "#3b3b3b")
-        self.createFrame(self.root)
-
+        self.setName = ""
         self.questions = []
+        self.qCount = 1
+        self.createFrame(self.root)
 
     # Create initial menu frame
     def createFrame(self, root):
@@ -25,7 +26,7 @@ class studyApp:
                             text = "Welcome to the study tool!",
                             font = "impact 70",
                             background = "white",
-                            fg = "black").pack()
+                            fg = "black")
         
         # Horizontal line below the title
         #hr = tk.Canvas(self.appFrame, height=5, bg='white', bd=0, highlightthickness=0)
@@ -49,9 +50,9 @@ class studyApp:
                             width = "12",
                             height = "3")
                             
-        
-        studyButton.pack(side = "left", pady = "5")
-        createButton.pack(side = "right", pady = "5")
+        titleLabel.grid(row = 0, column = 0)
+        studyButton.grid(row = 1, column = 0)
+        createButton.grid(row = 2, column = 0)
 
     def createClicked(self, cond):
         # cond is a boolean: if false, means user attempted to submit a blank name for study set
@@ -84,37 +85,92 @@ class studyApp:
         self.studyName.grid(row = 1, column= 0)
         submitName.grid(row = 2, column = 0)
 
-    def createStudyCreate(self):
+    def createStudyCreate(self, cond):
         userLbl = tk.Label(self.appFrame,
-                           text = self.questions[0],
+                           text = self.setName + " Study Set",
                            font = "impact 70",
                            background = "white",
                            fg = "black")
         
-        userQuestion = tk.Label(self.appFrame,
-                                text = "Question:",
-                                font = "impact 30",
-                                background = "white",
-                                fg = "black")
-        
-        questionEntry = tk.Entry(self.appFrame,
+        self.questionEntry = tk.Entry(self.appFrame,
                                  bg = "white",
                                  fg = "black")
-        
+        qNumStr = "Question " + str(self.qCount)
+        self.questionEntry.insert(0, qNumStr)
 
-        userLbl.grid(row = 0, column = 1)
-        userQuestion.grid(row = 1, column = 0)
-        questionEntry.grid(row = 1, column = 2)
+        self.a1 = tk.Entry(self.appFrame,
+                      bg = "white",
+                      fg = "black")
+        self.a1.insert(0, "answer 1")
 
+        self.a2 = tk.Entry(self.appFrame,
+                      bg = "white",
+                      fg = "black")
+        self.a2.insert(0, "answer 2")
+
+        self.a3 = tk.Entry(self.appFrame,
+                      bg = "white",
+                      fg = "black")
+        self.a3.insert(0, "answer 3")
+
+        self.a4 = tk.Entry(self.appFrame,
+                      bg = "white",
+                      fg = "black")
+        self.a4.insert(0, "answer 4")
+
+        self.answer = tk.Entry(self.appFrame,
+                      bg = "white",
+                      fg = "black")
+        self.answer.insert(0, "Which is the correct answer? 1, 2, 3, 4?")
+
+        submit = tk.Button(self.appFrame,
+                          text = "submit",
+                          background = "white",
+                          fg = "black",
+                          command = self.submitQuestion)
+
+
+        validAnswer = tk.Label(self.appFrame,
+                                   text = "Enter 1, 2, 3, or 4 for the correct answer!",
+                                   font = "impact 40",
+                                   background = "white",
+                                   fg = "red")
+
+        userLbl.grid(row = 0, column = 0)
+        self.questionEntry.grid(row = 1, column = 0)
+        self.a1.grid(row = 2, column = 0)
+        self.a2.grid(row = 3, column = 0)
+        self.a3.grid(row = 4, column = 0)
+        self.a4.grid(row = 5, column = 0)
+        self.answer.grid(row = 6, column = 0)
+        submit.grid(row = 7, column = 0)
+
+        if cond == False:
+            validAnswer.grid(row = 8, column = 0)
+
+
+    def submitQuestion(self):
+        if self.answer.get().strip() not in ['1', '2', '3', '4']:
+            self.createStudyCreate(False)
+        else:
+            self.questions.append(self.questionEntry.get())
+            self.questions.append(self.a1.get())
+            self.questions.append(self.a2.get())
+            self.questions.append(self.a3.get())
+            self.questions.append(self.a4.get())
+            self.questions.append(self.answer.get())
+            self.qCount += 1
+            self.clearFrame()
+            self.createStudyCreate(True)
 
     def addStudyTitle(self):
         # gets contents from the study set name entry box
         if self.studyName.get().strip() == "":
             self.createClicked(cond = False)
         else:
-            self.questions.append(self.studyName.get())
+            self.setName = self.studyName.get()
             self.clearFrame()
-            self.createStudyCreate()
+            self.createStudyCreate(True)
 
 
     def studyClicked(self):
