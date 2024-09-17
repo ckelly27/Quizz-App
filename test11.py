@@ -20,7 +20,8 @@ class studyApp:
     def createFrame(self):
         self.appFrame = tk.Frame(self.root,
                                  background = "#3b3b3b")
-        self.appFrame.pack()        
+        self.appFrame.pack()  
+              
 
         # Creates the title
         titleLabel = tk.Label(self.appFrame, 
@@ -179,7 +180,7 @@ class studyApp:
                             text = "Return Home",
                             background = "white",
                             fg = "black",
-                            command = self.createFrame)
+                            command = lambda: [self.clearFrame(), self.createFrame()])
         
 
         confirmationLbl.grid(row = 0, column = 0)
