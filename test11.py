@@ -56,6 +56,7 @@ class studyApp:
         studyButton.grid(row = 1, column = 0)
         createButton.grid(row = 2, column = 0)
 
+    # Creates screen where user enters name of study set
     def createClicked(self, cond):
         # cond is a boolean: if false, means user attempted to submit a blank name for study set
 
@@ -87,6 +88,7 @@ class studyApp:
         self.studyName.grid(row = 1, column= 0)
         submitName.grid(row = 2, column = 0)
 
+    # Creates screen where user enters the contents of the study set, question by question
     def createStudyCreate(self, cond):
         userLbl = tk.Label(self.appFrame,
                            text = self.setName + " Study Set",
@@ -131,7 +133,7 @@ class studyApp:
                           fg = "black",
                           command = self.submitQuestion)
 
-
+        # Answer must be 1, 2, 3, or 4
         validAnswer = tk.Label(self.appFrame,
                                    text = "Enter 1, 2, 3, or 4 for the correct answer!",
                                    font = "impact 40",
@@ -155,9 +157,11 @@ class studyApp:
         if self.qCount != 1:
             finishBtn.grid(row = 8, column = 0)
 
+        # Displays message that tells user answer must be 1, 2, 3, 4
         if cond == False:
             validAnswer.grid(row = 9, column = 0)
 
+    # Saves the study set as a CSV for later use
     def finishSet(self):
         
         headers = ["Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Correct Answer"]
@@ -187,7 +191,7 @@ class studyApp:
         confirmationLbl.grid(row = 0, column = 0)
         homeBtn.grid(row = 1, column = 0)
 
-
+    # Submits question with answers and appends to list of questions
     def submitQuestion(self):
         if self.answer.get().strip() not in ['1', '2', '3', '4']:
             self.createStudyCreate(False)
@@ -202,6 +206,7 @@ class studyApp:
             self.clearFrame()
             self.createStudyCreate(True)
 
+    # Ensures title isnt blank and sets CSV file name
     def addStudyTitle(self):
         # gets contents from the study set name entry box
         if self.studyName.get().strip() == "":
@@ -212,7 +217,7 @@ class studyApp:
             self.clearFrame()
             self.createStudyCreate(True)
 
-
+    
     def studyClicked(self):
         # clear frame in prepration for new contents 
         self.clearFrame()
