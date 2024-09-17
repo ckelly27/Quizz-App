@@ -1,6 +1,7 @@
 import numpy as np
 import tkinter as tk
 from tkinter import ttk
+import csv
 import os
 
 class studyApp:
@@ -13,11 +14,11 @@ class studyApp:
         self.setName = ""
         self.questions = []
         self.qCount = 1
-        self.createFrame(self.root)
+        self.createFrame()
 
     # Create initial menu frame
-    def createFrame(self, root):
-        self.appFrame = tk.Frame(root,
+    def createFrame(self):
+        self.appFrame = tk.Frame(self.root,
                                  background = "#3b3b3b")
         self.appFrame.pack()        
 
@@ -135,6 +136,12 @@ class studyApp:
                                    font = "impact 40",
                                    background = "white",
                                    fg = "red")
+        
+        finishBtn = tk.Button(self.appFrame,
+                              text = "Finish",
+                              background = "white",
+                              fg = "black",
+                              command = self.finishSet)
 
         userLbl.grid(row = 0, column = 0)
         self.questionEntry.grid(row = 1, column = 0)
@@ -144,9 +151,39 @@ class studyApp:
         self.a4.grid(row = 5, column = 0)
         self.answer.grid(row = 6, column = 0)
         submit.grid(row = 7, column = 0)
+        if self.qCount != 1:
+            finishBtn.grid(row = 8, column = 0)
 
         if cond == False:
-            validAnswer.grid(row = 8, column = 0)
+            validAnswer.grid(row = 9, column = 0)
+
+    def finishSet(self):
+        headers = ["Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Correct Answer"]
+        with open(self.csv_file, mode = "w", newline = "", encoding = "utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(headers)
+
+            for i in range(0, len(self.questions), 6):
+                row = self.questions[i:i+6]
+                writer.writerow(row)
+        
+        self.clearFrame()
+
+        confirmationLbl = tk.Label(self.appFrame,
+                                   text = "The file has been saved!",
+                                   font = "impact 70",
+                                   background = "white",
+                                   fg = "black")
+        
+        homeBtn = tk.Button(self.appFrame,
+                            text = "Return Home",
+                            background = "white",
+                            fg = "black",
+                            command = self.createFrame)
+        
+
+        confirmationLbl.grid(row = 0, column = 0)
+        homeBtn.grid(row = 1, column = 0)
 
 
     def submitQuestion(self):
@@ -169,6 +206,7 @@ class studyApp:
             self.createClicked(cond = False)
         else:
             self.setName = self.studyName.get()
+            self.csv_file = self.setName + ".csv"
             self.clearFrame()
             self.createStudyCreate(True)
 
