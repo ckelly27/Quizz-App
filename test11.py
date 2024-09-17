@@ -159,6 +159,7 @@ class studyApp:
             validAnswer.grid(row = 9, column = 0)
 
     def finishSet(self):
+        
         headers = ["Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Correct Answer"]
         with open(self.csv_file, mode = "w", newline = "", encoding = "utf-8") as file:
             writer = csv.writer(file)
@@ -174,7 +175,7 @@ class studyApp:
                                    text = "The file has been saved!",
                                    font = "impact 70",
                                    background = "white",
-                                   fg = "black")
+                                   fg = "green")
         
         homeBtn = tk.Button(self.appFrame,
                             text = "Return Home",
