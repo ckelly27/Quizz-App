@@ -164,7 +164,7 @@ class studyApp:
         with open(self.csv_file, mode = "w", newline = "", encoding = "utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(headers)
-
+            
             for i in range(0, len(self.questions), 6):
                 row = self.questions[i:i+6]
                 writer.writerow(row)
