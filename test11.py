@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 import csv
 import os
+from tkinter import filedialog
 
 class studyApp:
     def __init__(self, root):
@@ -185,7 +186,9 @@ class studyApp:
                             text = "Return Home",
                             background = "white",
                             fg = "black",
-                            command = lambda: [self.clearFrame(), self.createFrame()])
+                            command = lambda: [self.clearFrame(),
+                                               self.appFrame.destroy(),
+                                               self.createFrame()])
         
 
         confirmationLbl.grid(row = 0, column = 0)
@@ -219,8 +222,69 @@ class studyApp:
 
     
     def studyClicked(self):
+        self.questions = []
+
         # clear frame in prepration for new contents 
+        file_path = filedialog.askopenfilename(
+            filetypes=[("CSV Files", "*.csv")],
+            title="Select a Study Set"
+        )
+        self.csv_file = file_path
+
         self.clearFrame()
+        try:
+            with open(self.csv_file, mode='r', newline='', encoding='utf-8') as file:
+                csv_reader = csv.reader(file)
+                headers = next(csv_reader) 
+                for row in csv_reader:
+                    if row:
+                        self.questions.append(row)
+        except:
+            self.appFrame.destroy()
+            self.createFrame()
+
+        self.currQuestion = 5
+        self.displayQuestions()
+        
+        # If user hits cancel during file selection
+        if not file_path:
+            self.appFrame.destroy()
+            self.createFrame()
+    
+    def displayQuestions(self):
+
+        if self.currQuestion >= len(self.questions):
+            self.clearFrame()
+            doneLbl = tk.Label(self.appFrame,
+                     text = "No more questions!",
+                     font = "impact 70",
+                     background = "white",
+                     fg = "green")
+            homeBtn = tk.Button(self.appFrame,
+                                text = "Return Home",
+                                background = "white",
+                                fg = "black",
+                                command = lambda: [self.appFrame.destroy(),
+                                                   self.createFrame()])
+
+            doneLbl.grid(row = 0, column = 0)
+            homeBtn.grid(row = 1, column = 0)
+        else:
+            setName = os.path.basename(self.csv_file).replace(".csv", "")
+            setLbl = tk.Label(self.appFrame,
+                            text = setName + " set",
+                            font = "impact 70",
+                            background = "white",
+                            fg = "black")
+        
+
+            qLbl = tk.Label(self.appFrame,
+                            text = "hi",
+                            font = "impact 40"
+                            )
+        
+            setLbl.grid(row = 0, column = 0)
+            qLbl.grid(row = 1, column = 0)
 
     # Empties frame to display new contents
     def clearFrame(self):
