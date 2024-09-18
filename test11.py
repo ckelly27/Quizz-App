@@ -1,4 +1,3 @@
-import numpy as np
 import tkinter as tk
 from tkinter import ttk
 import csv
@@ -231,7 +230,7 @@ class studyApp:
     def studyClicked(self):
         self.questions = []
 
-        # clear frame in prepration for new contents 
+        # Clear frame in prepration for new contents 
         file_path = filedialog.askopenfilename(
             filetypes=[("CSV Files", "*.csv")],
             title="Select a Study Set"
@@ -247,7 +246,7 @@ class studyApp:
                     if row:
                         self.questions.append(row)
                         
-        # if some error occurs during file selection, goes to home screen                
+        # If some error occurs during file selection, goes to home screen                
         except:
             self.appFrame.destroy()
             self.createFrame()
@@ -260,7 +259,10 @@ class studyApp:
             self.appFrame.destroy()
             self.createFrame()
     
+    # Displays questions and respective answers
     def displayQuestions(self):
+
+        # If out of questions, tells user
         if self.currQuestion >= len(self.questions):
             self.clearFrame()
             doneLbl = tk.Label(self.appFrame,
@@ -324,13 +326,15 @@ class studyApp:
             self.a3Btn.grid(row = 4, column = 0)
             self.a4Btn.grid(row = 5, column = 0)
             self.nextQ.grid(row = 7, column = 0)
-    
+
+    # Changes current question index and clears frame for next quesion and answers
     def nextQuestion(self):
         self.currQuestion += 1
         self.clearFrame()
         self.displayQuestions()
         
     def answerClicked(self, choice):
+        # Button text becomes green if correct option is clicked
         if str(choice) == self.tempCorrect:
             if choice == 1:
                 self.a1Btn.config(fg = "green")
@@ -341,6 +345,7 @@ class studyApp:
             elif choice == 4:
                 self.a4Btn.config(fg = "green")
 
+        # Button text becomes red if incorrect option is clicked
         else:
             if choice == 1:
                 self.a1Btn.config(fg = "red")
