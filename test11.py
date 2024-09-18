@@ -239,11 +239,13 @@ class studyApp:
                 for row in csv_reader:
                     if row:
                         self.questions.append(row)
+                        
+        # if some error occurs during file selection, goes to home screen                
         except:
             self.appFrame.destroy()
             self.createFrame()
 
-        self.currQuestion = 5
+        self.currQuestion = 0
         self.displayQuestions()
         
         # If user hits cancel during file selection
@@ -252,39 +254,81 @@ class studyApp:
             self.createFrame()
     
     def displayQuestions(self):
+        tempQ = self.questions[self.currQuestion][0]
+        tempa1 = self.questions[self.currQuestion][1]
+        tempa2 = self.questions[self.currQuestion][2]
+        tempa3 = self.questions[self.currQuestion][3]
+        tempa4 = self.questions[self.currQuestion][4]
+        self.tempCorrect = self.questions[self.currQuestion][5]
 
-        if self.currQuestion >= len(self.questions):
-            self.clearFrame()
-            doneLbl = tk.Label(self.appFrame,
-                     text = "No more questions!",
-                     font = "impact 70",
-                     background = "white",
-                     fg = "green")
-            homeBtn = tk.Button(self.appFrame,
-                                text = "Return Home",
-                                background = "white",
-                                fg = "black",
-                                command = lambda: [self.appFrame.destroy(),
-                                                   self.createFrame()])
+        setName = os.path.basename(self.csv_file).replace(".csv", "")
+        setLbl = tk.Label(self.appFrame,
+                        text = setName + " set",
+                        font = "impact 70",
+                        background = "white",
+                        fg = "black")
+        
+        qLbl = tk.Label(self.appFrame,
+                        text = tempQ,
+                        font = "impact 40",
+                        background = "white",
+                        fg = "black")
+        
+        self.a1Btn = tk.Button(self.appFrame,
+                          text = tempa1,
+                          background = "white",
+                          fg = "black",
+                          command = lambda: self.answerClicked(1))
+        self.a2Btn = tk.Button(self.appFrame,
+                          text = tempa2,
+                          background = "white",
+                          fg = "black",
+                          command = lambda: self.answerClicked(2))
+        self.a3Btn = tk.Button(self.appFrame,
+                          text = tempa3,
+                          background = "white",
+                          fg = "black",
+                          command = lambda: self.answerClicked(3))
+        self.a4Btn = tk.Button(self.appFrame,
+                          text = tempa4,
+                          background = "white",
+                          fg = "black",
+                          command = lambda: self.answerClicked(4))
 
-            doneLbl.grid(row = 0, column = 0)
-            homeBtn.grid(row = 1, column = 0)
+        setLbl.grid(row = 0, column = 0)
+        qLbl.grid(row = 1, column = 0)
+        self.a1Btn.grid(row = 2, column = 0)
+        self.a2Btn.grid(row = 3, column = 0)
+        self.a3Btn.grid(row = 4, column = 0)
+        self.a4Btn.grid(row = 5, column = 0)
+        
+    def answerClicked(self, choice):
+        if str(choice) == self.tempCorrect:
+            if choice == 1:
+                self.a1Btn.config(fg = "green")
+                print("1")
+            elif choice == 2:
+                self.a2Btn.config(fg = "green")
+                print("2")
+            elif choice == 3:
+                self.a3Btn.config(fg = "green")
+                print("3")
+            elif choice == 4:
+                self.a4Btn.config(fg = "green")
+                print("4")
+
+            
+        
         else:
-            setName = os.path.basename(self.csv_file).replace(".csv", "")
-            setLbl = tk.Label(self.appFrame,
-                            text = setName + " set",
-                            font = "impact 70",
-                            background = "white",
-                            fg = "black")
-        
+            if choice == 1:
+                self.a1Btn.config(fg = "red")
+            elif choice == 2:
+                self.a2Btn.config(fg = "red")
+            elif choice == 3:
+                self.a3Btn.config(fg = "red")
+            elif choice == 4:
+                self.a4Btn.config(fg = "red")
 
-            qLbl = tk.Label(self.appFrame,
-                            text = "hi",
-                            font = "impact 40"
-                            )
-        
-            setLbl.grid(row = 0, column = 0)
-            qLbl.grid(row = 1, column = 0)
 
     # Empties frame to display new contents
     def clearFrame(self):
