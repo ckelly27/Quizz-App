@@ -362,7 +362,7 @@ class studyApp:
         for widget in self.appFrame.winfo_children():
             widget.destroy()
 
-
+# main call
 if __name__ == "__main__":
     window = tk.Tk()
     studyApp(window)
