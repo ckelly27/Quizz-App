@@ -1,4 +1,4 @@
-# Quiz App
+# Quizz App
 A quizlet-like program 
 ### Why?
 This was a program that I have always wanted to create, but never got around to actually doing it. Obviously, that time did eventually come, and I have created it. 
